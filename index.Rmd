@@ -72,23 +72,67 @@ Las barras deben estar ordenadas de mayor (a la izquierda o arriba) a menor (a l
 - Cantidad de casos en cada barra.
 
 ```{r}
-
+library(ggplot2)
+ggplot(ca_covid19, aes(x=reorder(pais, -positivos), y=positivos)) +
+  ggtitle("Casos positivos de COVID-19 en Centroamérica y DOM") +
+  xlab("País") + 
+  ylab("Casos positivos") +  
+  geom_col() +
+  geom_text(aes(label=positivos), vjust=-0.3, size=3.5)
 ```
 
 ```{r}
-
+ggplot(ca_covid19, aes(x=reorder(pais, -fallecidos), y=fallecidos)) +
+  ggtitle("Fallecidos de COVID-19 en Centroamérica y DOM") +
+  xlab("País") + 
+  ylab("Fallecidos") +  
+  geom_col() +
+  geom_text(aes(label=fallecidos), vjust=-0.3, size=3.5)
 ```
 
 ```{r}
-
+ggplot(ca_covid19, aes(x=reorder(pais, -	recuperados), y=	recuperados)) +
+  ggtitle("Recuperados de COVID-19 en Centroamérica y DOM") +
+  xlab("País") + 
+  ylab("Recuperados") +  
+  geom_col() +
+  geom_text(aes(label=	recuperados), vjust=-0.3, size=3.5)
 ```
 
 ```{r}
-
+ggplot(ca_covid19, aes(x=reorder(pais, -	activos), y=	activos)) +
+  ggtitle("Activos de COVID-19 en Centroamérica y DOM") +
+  xlab("País") + 
+  ylab("Activos") +  
+  geom_col() +
+  geom_text(aes(label=	activos), vjust=-0.3, size=3.5)
 ```
 
 4. (10% - OPCIONAL) Genere un solo gráfico de barras que presente los cuatros tipos de casos, ya sea en barras apiladas o agrupadas.
 
 ```{r}
+# como agrupar columnas
+library(reshape2)
+ca_covid19melt <- melt(ca_covid19, na.rm = FALSE, value.name = "value")
 
+# Agrupados
+ggplot(ca_covid19melt, aes(fill=variable, y=value, x=pais)) + 
+  geom_bar(position="dodge", stat="identity")+
+   ggtitle("Datos de casos COVID-19 en Centroamérica y DOM") +
+  xlab("País") + 
+  ylab("Numero de Casos")
+
+# Agrupados una sobre otra
+ggplot(ca_covid19melt, aes(fill=variable, y=value, x=pais)) + 
+  geom_bar(position="stack", stat="identity")+
+ ggtitle("Datos de casos COVID-19 en Centroamérica y DOM") +
+  xlab("País") + 
+  ylab("Numero de Casos")
+
+# Agrupado en porcentaje
+ggplot(ca_covid19melt, aes(fill=variable, y=value, x=pais)) + 
+  geom_bar(position="fill", stat="identity")+
+ ggtitle("Datos de casos COVID-19 en Centroamérica y DOM") +
+  xlab("País") + 
+  ylab("Porcentaje de Casos")
 ```
